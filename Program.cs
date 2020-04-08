@@ -1,4 +1,9 @@
-﻿using System;
+
+
+
+//Задача 2, Задача за банкомат
+
+using System;
 
 namespace Bankomatt
 {
