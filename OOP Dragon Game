@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+ 
+namespace ConsoleApp3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Hero first = new Hero("Dragonborn", 120, 20);
+            first.speed = 0.7;
+ 
+            Hero second = new Hero("Stoyan Kolev", 120, 25);
+            second.speed = 0.3;
+ 
+            first.Fight(second);
+ 
+            Console.WriteLine("Hello World!");
+            Console.ReadKey();
+        }
+    }
+ 
+    class Hero
+    {
+        // properties
+        public string name;
+        public int health;
+        public int damage;
+        public double speed;
+        Random randomGenerator;
+ 
+        // constructor
+        public Hero(string n, int h, int d)
+        {
+            this.name = n;
+            this.health = h;
+            this.damage = d;
+        }
+ 
+        // methods
+        public void getStats()
+        {
+            Console.WriteLine("Hero: " + name + " HP: " + health + " Dmg: " + damage);
+        }
+ 
+        public void Attack(Hero enemy)
+        {
+            Thread.Sleep(1000);
+            randomGenerator = new Random();
+            int randomDefence = randomGenerator.Next(4);
+ 
+            if(randomDefence != 1)
+            {
+                // enemy.health = enemy.health - this.damage
+                Console.WriteLine(this.name + " attacks " + enemy.name + " for " + this.damage);
+                Console.WriteLine(enemy.name + " has " + enemy.health + "hp left...");
+                enemy.health -= this.damage;
+            } else
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine(enemy.name + " blocked " + this.name + "s attack!");
+            }
+ 
+        }
+ 
+        public void Fight(Hero enemy)
+        {
+            while(this.health > 0 && enemy.health > 0)
+            {
+ 
+ 
+                if (this.speed > enemy.speed)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    this.Attack(enemy);
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    enemy.Attack(this);
+                } else
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    enemy.Attack(this);
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    this.Attack(enemy);
+                }
+            }
+ 
+            if(this.health > enemy.health)
+            {
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("You have WON the fight against " + enemy.name);
+ 
+            } else
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("You have LOST the battle against " + enemy.name);
+            }
+            this.getStats();
+            enemy.getStats();
+        }
+    }
+}
